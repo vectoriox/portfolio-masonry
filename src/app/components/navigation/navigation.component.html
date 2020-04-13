@@ -1,0 +1,67 @@
+<div id="app-nav">
+    <div id="head">
+        <h1 vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0s'" ><img src="./assets/images/logo.svg"></h1>
+        <button (click)="toggleSideNav()" id="social"><i nz-icon nzType="more" nzTheme="outline"></i></button>
+    </div> 
+    
+    <nav id="main-nav">
+        <ul>
+            <li vioxAnimate [animationDelay]="'0.6s'"><a routerLink="/home">PORTFOLIO</a></li>
+            <li>|</li>
+            <li vioxAnimate [animationDelay]="'0.8s'"><a routerLink="/aboutMe">ABOUT ME</a></li>
+        </ul>    
+    </nav>
+    <nav id="side-nav">
+        <ul class="filters">
+            <li vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0.4s'">
+                <a href="{{profile.instegram}}" target="_blank" >
+                    <i nz-icon nzType="instagram" nzTheme="fill"></i>
+                </a>
+            </li>
+            <li vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0.6s'"> 
+                <a href="{{profile.facebook}}" target="_blank">
+                    <i nz-icon nzType="facebook" nzTheme="fill"></i>
+                </a>
+            </li>
+            <li vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0.8s'">
+                <a href="{{profile.linkedin}}" target="_blank">
+                    <i nz-icon nzType="linkedin" nzTheme="fill"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <nav id="social-nav" [ngClass]="{'open': sideNavOpen}">
+        <ul class="filters">
+            <li vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0.4s'">
+                <a href="{{profile.instegram}}" target="_blank" >
+                    <i nz-icon nzType="instagram" nzTheme="fill"></i>
+                    INSTAGRAM
+                </a>
+            </li>
+            <li vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0.6s'"> 
+                <a href="{{profile.facebook}}" target="_blank">
+                    <i nz-icon nzType="facebook" nzTheme="fill"></i>
+                    FACEBOOK
+                </a>
+            </li>
+            <li vioxAnimate [animationIn]="'zoom-in-up'" [animationDelay]="'0.8s'">
+                <a href="{{profile.linkedin}}" target="_blank">
+                    <i nz-icon nzType="linkedin" nzTheme="fill"></i>
+                    LINKEDIN
+                </a>
+            </li>
+            <li>
+                <a href="mailto:liora.kat@gmail.com">
+                    <i nz-icon nzType="mail" nzTheme="fill"></i>
+                    liora.kat@gmail.com
+                </a>
+            </li>
+            <li>
+                <a href="tel:+972546976995">
+                    <i nz-icon nzType="phone" nzTheme="fill"></i>
+                    +972-546976995
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

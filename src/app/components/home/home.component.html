@@ -1,0 +1,47 @@
+<div id="app-home-page" class="container">
+  <div class="gallery">
+    <div class="gallery-body" [ngClass]="{'sm': isSmallScreen}">
+      <!--viox-masonry-->
+      <div viox-masonry class="grid" (layoutComplete)="layoutComplete($event)" [options]="options" *ngIf="collection.length > 0">
+        <div class="grid-sizer"></div>
+        <div vioxMasonryItem class="grid-item size-{{item.size}}" *ngFor="let item of collection;index as i;" >
+          <div class="item-wrapper" (click)="openGalleryItem(item)">
+            <img src="{{item.tizer.src}}">
+            <div class="item-info"></div>
+          </div>
+        </div>
+        <!--/viox-masonry-->
+      </div>
+    </div>
+  </div>
+
+    <nz-modal [(nzVisible)]="isVisible" [nzWidth]="1200"  [nzStyle]="{'top':'0'}" [nzBodyStyle]="modalContentStyle" [nzTitle]="modalTitle" [nzWrapClassName]="'app-gallery-modal'" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="closeItemGallery">
+      <ng-template #modalTitle>
+          <div class="modal-gallery-header">
+            <div class="info">
+                <div>
+                  <img class="thumb" src={{collectionItem.tizer.src}}/> 
+              </div>
+              <div class="title">
+                  <h1 class="title-h">{{collectionItem.head}}</h1>
+                  <p class="title-d">{{collectionItem.decription}}</p>
+              </div>
+            </div>
+            <div class="actions">
+              <i nz-icon class="close" nzType="close" nzTheme="outline" (click)="closeItemGallery()"></i>
+            </div>
+          </div>
+      </ng-template>
+      <p>Content one</p>
+      <ng-template #modalContent>
+          <app-loader class="app-loader"></app-loader>
+          <div class="modal-gallery-body" [ngClass]="{'gallery-fade-in': isArtboardsVisible}">
+              <div *ngFor="let artboard of collectionItem.artboards">
+                <img src="{{artboard.src}}"/>
+            </div>
+          </div>
+      </ng-template>
+      <ng-template #modalFooter>
+      </ng-template>
+  </nz-modal>
+</div>

@@ -1,0 +1,10 @@
+<div id= "about-me">
+    <article >
+        <p *ngIf="profile.aboutMe" vioxAnimate animationIn="zoom-in-up" animationDelay="0.4s" [innerHTML]="profile.aboutMe[0].text">
+        </p>
+        <p  *ngIf="profile.aboutMe" vioxAnimate animationIn="zoom-in-up" animationDelay="0.5s" [innerHTML]="profile.aboutMe[1].text"></p>
+    </article>
+    <div>
+        <img vioxAnimate animationIn="flip-left" animationDelay="1s" img src="./assets/images/liora.jpg"/>
+    </div>
+</div>

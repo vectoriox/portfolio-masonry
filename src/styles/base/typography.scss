@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Alata|Josefin+Sans|Pacifico&display=swap');
+
+@mixin font-headers($size:14px,$color:#fff){
+    font-family: 'Pacifico', cursive;
+    color:$color;
+    font-size: $size;
+}
+
+@mixin font-paragraph-1($size:14px , $color:#fff){
+    font-family: 'Josefin Sans', sans-serif;
+    color:$color;
+    font-size: $size;
+}
+
+@mixin font-paragraph-2($size:14px , $color:#fff){
+    font-family: 'Alata', sans-serif;
+    color:$color;
+    font-size: $size;
+}
+

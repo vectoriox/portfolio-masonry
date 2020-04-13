@@ -1,0 +1,42 @@
+<div class="app-gallery-item">
+    <!--div class="dj-tile-spinner" [ngClass]="{'spinner-off': isLoaded}">
+        <div class="spinner"></div>
+    </div-->
+    <img class="gallery-item-img" src="{{collection.tizerImage}}" />
+    <div class="gallery-item-info" (click)="openItemGallery()">
+        <h3>{{collection.header}}</h3>
+        <p>{{collection.decription}}</p>
+        <i class="icon ion-logo-instagram instegram"></i>
+        <i class="icon ion-logo-facebook facebook"></i>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzWidth]="1200"  [nzStyle]="{'top':'0'}" [nzBodyStyle]="modalContentStyle" [nzTitle]="modalTitle" [nzWrapClassName]="'app-gallery-modal'" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="closeItemGallery()">
+        <ng-template #modalTitle>
+            <div class="modal-gallery-header">
+
+                <div>
+                    <img class="thumb" src={{collection.tizerImage}}/> 
+                </div>
+                <div class="title">
+                    <h1 class="title-h">{{collection.header}}</h1>
+                    <p class="title-d">{{collection.decription}}</p>
+                </div>
+            </div>
+        </ng-template>
+        <p>Content one</p>
+        <ng-template #modalContent>
+            <app-loader class="app-loader"></app-loader>
+            <div class="modal-gallery-body" [ngClass]="{'gallery-fade-in': isGalleryVisible}">
+                <nz-carousel [nzEffect]="effect" *ngIf="isGalleryVisible">
+                        <div nz-carousel-content *ngFor="let imgSrc of collection.gallery">
+                            <img src="{{imgSrc}}"/>
+                        </div>
+                </nz-carousel>
+            </div>
+        </ng-template>
+        <ng-template #modalFooter>
+            <span>Modal Footer: </span>
+            <button nz-button nzType="default" (click)="closeItemGallery()">Custom Callback</button>
+        </ng-template>
+    </nz-modal>

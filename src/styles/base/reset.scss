@@ -1,0 +1,107 @@
+@import './layout/flex.scss';
+@import './abstracts/variables.scss';
+@import './typography.scss';
+*{
+    margin: 0;
+    padding: 0;
+}
+[nz-carousel-content] {
+    text-align: center;
+    height: 160px;
+    line-height: 160px;
+    background:transparent;
+    color: #fff;
+    overflow: hidden;
+  }
+  
+  .app-gallery-modal{
+    .app-loader{
+        height:700px;
+    }
+    .ant-modal-close-x{
+        display: none;
+    }
+    .modal-gallery-header{
+        padding: 13px 0;
+        @include flexbox();
+        @include justify-content(space-between);
+        width: 100%;
+        .info{
+            @include flexbox();
+            .thumb{
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+            }
+            .title{
+                padding-left: 20px;
+                padding-top: 12px;
+                .title-h{
+                    margin: 0;
+                    @include font-paragraph-2(23px, #fff);
+                }
+                .title-d{
+                    margin: 0;
+                    font-size: 13px;
+                    color:  #fff;
+                }
+            }
+        }
+        .actions{
+            @include align-self(center);
+        }
+        .close{
+            cursor: pointer;
+            
+            color: #fff;
+            font-size: 22px;
+        }
+
+    }     
+    .modal-gallery-body{
+        opacity: 0;
+        position: relative;
+        width: 100%;
+        @include flexbox();
+        @include flex-direction(column);
+        z-index: 5;
+        @include justify-content(center); 
+        top:0;
+        left: 0;
+        &.gallery-fade-in{
+            opacity: 1;
+            -webkit-transition: all 1s; /* Safari */
+            transition: all 1s;
+        }
+        img{
+            width: 100%;
+        } 
+    }
+    .ant-modal-content{
+        background: transparent;
+        box-shadow: 0 0 0;
+    }
+    .ant-modal-header{
+        background: transparent;
+        padding: 0 0 10px 0;
+        border:0px;
+    }
+    .ant-modal-body{
+        position: relative;
+        padding:0;
+    } 
+    .ant-modal-footer{
+        border: 0;
+    }
+    .ant-carousel{
+        img{
+            width: 100%;
+        }
+    }
+  }
+.ant-modal-mask{
+    background-color: rgba(0,0,0,.9)!important;
+}
+body{
+    background: #f4f4f4;
+}
