@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   contentResource:{
-    HOST:"http://localhost:1337/",
+    HOST:"/api/",
     GALLERY: "galleries",
-    ABOUT_ME: "about-mes"
+    PROFILE: "about-mes"
   }
 };

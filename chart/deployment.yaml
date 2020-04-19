@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: deployment
+metadata:
+  labels:
+    app: liora-portfolio
+  name: liora-portfolio
+  namespace: iox-studio
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: liora-porfolio
+  template: 
+    metadata: 
+      labels:
+        app: liora-portfolio
+    spec:
+      containers:
+      - image: ioxweb/portfolio-masonry:1.0.0
+        name: liora-portfolio
+        ports:
+        - containerPort: 5000
+

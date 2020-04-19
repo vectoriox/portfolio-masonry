@@ -1,0 +1,13 @@
+{
+  "name": "liora-portfolio-server",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "node server.js"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {}
+}
