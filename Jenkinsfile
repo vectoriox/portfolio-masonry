@@ -5,7 +5,7 @@ pipeline{
     environment{
         dockerImage = ''
         registry= 'ioxweb/portfolio-masonry'
-        BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim(
+        BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
     stages{
         stage('checkout'){
