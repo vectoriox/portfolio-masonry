@@ -20,7 +20,9 @@ pipeline{
                  echo "BUILD_TIMESTAMP: ${env.BUILD_TIMESTAMP}"
                  echo "GIT_BRANCH: ${env.GIT_BRANCH}"
                  echo "BUILDVERSION: ${env.BUILDVERSION}"
+              script{
                  dockerImage =  docker.build "${registry}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+              }
             }
         }
     }
