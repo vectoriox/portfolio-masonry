@@ -5,6 +5,7 @@ pipeline{
     environment{
         dockerImage = ''
         registry= 'ioxweb/portfolio-masonry'
+        dockerHubCred = 'dockerhub-id'
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
     stages{
@@ -15,15 +16,18 @@ pipeline{
         }
         stage('Docker Build'){
             steps{
-                 echo "Build ID:  ${env.BUILD_ID}"
-                 echo "BUILD_TAG: ${env.BUILD_TAG}"
-                 echo "BUILD_TIMESTAMP: ${env.BUILD_TIMESTAMP}"
-                 echo "GIT_BRANCH: ${env.GIT_BRANCH}"
-                 echo "BUILDVERSION: ${env.BUILDVERSION}"
               script{
                  dockerImage =  docker.build "${registry}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
               }
             }
         }
+      stage('Upload Image'){
+        steps{
+          script{
+            docker.withRegistry('', dockerHubCred)
+            dockerImage.push()
+          }
+        }
+      }
     }
 }
