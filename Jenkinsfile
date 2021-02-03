@@ -17,7 +17,7 @@ pipeline{
       stage('Helm Pack and Push'){
         agent {
           docker { 
-              image ' ioxweb/iox-executor:1.0.0' 
+              image 'ioxweb/iox-executor:1.0.0' 
               args '-e TEST=${dockerHubCred}'
             }
         }
