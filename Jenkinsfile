@@ -14,22 +14,6 @@ pipeline{
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/vectoriox/portfolio-masonry.git']]])
             }
         }
-        stage('Docker Build'){
-            steps{
-              script{
-                 dockerImage =  docker.build "${registry}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
-              }
-            }
-        }
-      stage('Upload Image'){
-        steps{
-          script{
-            docker.withRegistry('', 'dockerhub-id'){
-              dockerImage.push()
-            }            
-          }
-        }
-      }
       stage('Helm Pack and Push'){
         agent {
           docker { 
