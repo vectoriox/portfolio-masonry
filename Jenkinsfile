@@ -5,6 +5,7 @@ pipeline{
         dockerHubCred = 'dockerhub-id'
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
+    agent none
     stages{
       //   stage('checkout'){
       //       steps{
