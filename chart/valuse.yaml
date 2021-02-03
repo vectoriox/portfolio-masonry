@@ -1,0 +1,5 @@
+nameSpace: iox-studio
+appName: liora-portfolio
+dockerImge: ioxweb/portfolio-masonry:1.0.2
+containerPort: 1337
+externalPort: 80

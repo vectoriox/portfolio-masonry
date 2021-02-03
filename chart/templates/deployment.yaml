@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: deployment
+kind: Deployment
 metadata:
   labels:
     app: liora-portfolio
@@ -9,15 +9,14 @@ spec:
   replicas: 1
   selector: 
     matchLabels:
-      app: liora-porfolio
+      app: liora-portfolio
   template: 
     metadata: 
       labels:
         app: liora-portfolio
     spec:
       containers:
-      - image: ioxweb/portfolio-masonry:1.0.0
+      - image: ioxweb/portfolio-masonry:1.0.2
         name: liora-portfolio
         ports:
-        - containerPort: 5000
-
+        - containerPort: 1337
