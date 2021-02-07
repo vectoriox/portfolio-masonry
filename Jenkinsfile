@@ -8,7 +8,7 @@ pipeline{
         dockerHubCred = 'dockerhub-id'
         GITHUB_TOKEN = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
-        gitUrl = sh(script:"echo ${GIT_URL}", , returnStdout: true).replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
+        gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
     }
     stages{
         stage('checkout'){
@@ -28,13 +28,13 @@ pipeline{
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.0' 
-              args '-e GITHUB_TOKEN=${GITHUB_TOKEN} -e GIT_URL=${gitUrl} -e REPO_NAME=${REPO_NAME}'
+              args '-e GITHUB_TOKEN=${GITHUB_TOKEN} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME}'
             }
         }
         steps {
                 sh '''
 
-                  echo ${GIT_URL}
+                  echo ${GITHUB_URL}
                   echo ${REPO_NAME}
                 '''
 
