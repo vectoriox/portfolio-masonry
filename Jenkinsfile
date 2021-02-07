@@ -13,10 +13,10 @@ pipeline{
     stages{
         stage('checkout'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], 
+                checkout([$class: 'GitSCM', branches: [[name: '*/${GIT_BRANCH}']], 
                 doGenerateSubmoduleConfigurations: false, extensions: [],
                 submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL, , returnStdout: true)]]])
+                userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL]]])
             }
         }
       stage('Print Env'){
