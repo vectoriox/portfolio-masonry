@@ -35,7 +35,7 @@ pipeline{
                 sh '''
 
                   echo ${GIT_URL}
-                  echi ${REPO_NAME}
+                  echo ${REPO_NAME}
                 '''
 
         }
