@@ -41,7 +41,7 @@ pipeline{
                   git clone "https://${GITHUB_TOKEN}:x-oauth-basic@${GITHUB_URL}"
                   sleep 5
                   ls
-                  git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/vectoriox/iox-helm-repo.git
+                  git clone https://x-access-token:${GITHUB_TOKEN}@github.com/vectoriox/iox-helm-repo.git
                   echo '2'
                   cd ~/${REPO_NAME}
                   echo '3'
