@@ -4,18 +4,18 @@ pipeline{
     
     environment{
         dockerImage = ''
-        registry= 'ioxweb/portfolio-masonry'
+        REPO_NAME= 'portfolio-masonry'
         dockerHubCred = 'dockerhub-id'
-        githubToken = credentials('github-id')
+        GITHUB_TOKEN = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
     stages{
         stage('checkout'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                checkout([$class: 'GitSCM', branches: [[name: '*/${GIT_BRANCH}']], 
                 doGenerateSubmoduleConfigurations: false, extensions: [],
                 submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/vectoriox/portfolio-masonry.git']]])
+                userRemoteConfigs: [[credentialsId: 'github-id', url: '${GIT_URL}']]])
             }
         }
       stage('Print Env'){
@@ -27,12 +27,28 @@ pipeline{
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.0' 
-              args '-e TEST=${githubToken}'
+              args '-e GITHUB_TOKEN=${GITHUB_TOKEN} -e GIT_URL=${GIT_URL} -e REPO_NAME=${REPO_NAME}'
             }
         }
         steps {
-                sh 'node --version'
-                sh 'echo $TEST'
+                sh '''
+                    git clone https://${GITHUB_TOKEN}:x-oauth-basic@${GIT_URL | sed 's/https\?:\/\///'}
+                    echo '1'
+                    git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/vectoriox/iox-helm-repo.git
+                    echo '2'
+                    cd ${REPO_NAME}
+                    echo '3'
+                    helm package ~/iox-helm-repo/${REPO_NAME}
+                    echo '4'
+                    cd ~/iox-helm-repo
+                    echo '5'
+                    git add .
+                    echo '6'
+                    git commit -m '${REPO_NAME} new chart'
+                    echo '7'
+                    git push
+                '''
+
         }
       }
     }
