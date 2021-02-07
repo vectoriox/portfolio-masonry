@@ -13,7 +13,7 @@ pipeline{
     stages{
         stage('checkout'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/${GIT_BRANCH}']], 
+                checkout([$class: 'GitSCM', branches: [[name: env.GIT_BRANCH]], 
                 doGenerateSubmoduleConfigurations: false, extensions: [],
                 submoduleCfg: [],
                 userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL]]])
