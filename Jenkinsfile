@@ -33,9 +33,9 @@ pipeline{
         }
         steps {
                 sh '''
-
-                  echo ${GITHUB_URL}
+                  echo "https://${GITHUB_TOKEN}:x-oauth-basic@${GITHUB_URL}"
                   echo ${REPO_NAME}
+                  
                 '''
 
         }
