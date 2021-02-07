@@ -34,21 +34,8 @@ pipeline{
         steps {
                 sh '''
 
-                    git clone https://${GITHUB_TOKEN}:x-oauth-basic@${GIT_URL}
-                    echo '1'
-                    git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/vectoriox/iox-helm-repo.git
-                    echo '2'
-                    cd ${REPO_NAME}
-                    echo '3'
-                    helm package ~/iox-helm-repo/${REPO_NAME}
-                    echo '4'
-                    cd ~/iox-helm-repo
-                    echo '5'
-                    git add .
-                    echo '6'
-                    git commit -m '${REPO_NAME} new chart'
-                    echo '7'
-                    git push
+                  echo ${GIT_URL}
+                  echi ${REPO_NAME}
                 '''
 
         }
