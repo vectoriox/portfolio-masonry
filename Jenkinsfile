@@ -33,9 +33,10 @@ pipeline{
         }
         steps {
                 sh '''
-                  echo "https://${GITHUB_TOKEN}:x-oauth-basic@${GITHUB_URL}"
-                  echo ${REPO_NAME}
-                  
+                  git clone "https://${GITHUB_TOKEN}:x-oauth-basic@${GITHUB_URL}"
+                  echo "1"
+                  cd ${REPO_NAME}
+                  echo "2"
                 '''
 
         }
