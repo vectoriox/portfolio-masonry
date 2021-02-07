@@ -8,7 +8,7 @@ pipeline{
         dockerHubCred = 'dockerhub-id'
         GITHUB_TOKEN = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
-        gitUrl = sh(script:"echo ${GIT_URL}").replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
+        gitUrl = sh(script:"echo ${GIT_URL}", , returnStdout: true).replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
     }
     stages{
         stage('checkout'){
