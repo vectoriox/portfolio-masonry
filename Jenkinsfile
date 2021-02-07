@@ -33,6 +33,8 @@ pipeline{
         }
         steps {
                 sh '''
+                  cd ~
+                  ls
                   if [ -d "$REPO_NAME" ]; then rm -Rf $REPO_NAME; fi
                   if [ -d iox-helm-repo ]; then rm -Rf $REPO_NAME; fi
 
