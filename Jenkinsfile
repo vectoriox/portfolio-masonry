@@ -33,6 +33,9 @@ pipeline{
         }
         steps {
                 sh '''
+                  if [ -d "$REPO_NAME" ]; then rm -Rf $REPO_NAME; fi
+                  if [ -d iox-helm-repo ]; then rm -Rf $REPO_NAME; fi
+
                   git clone "https://${GITHUB_TOKEN}:x-oauth-basic@${GITHUB_URL}"
                   git clone  https://${GITHUB_TOKEN}:x-oauth-basic@github.com/vectoriox/iox-helm-repo.git
                   echo "1"
