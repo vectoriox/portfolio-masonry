@@ -45,13 +45,14 @@ pipeline{
                   echo '2'
                   cd ~/${REPO_NAME}
                   echo '3'
+                  mkdir -p ~/iox-helm-repo/${REPO_NAME}
                   helm package ~/iox-helm-repo/${REPO_NAME}
                   echo '4'
                   cd ~/iox-helm-repo
                   echo '5'
                   git add .
                   echo '6'
-                  git commit -m '${REPO_NAME} new chart'
+                  git commit -m '${REPO_NAME} new helm pack'
                   echo '7'
                   git push
                 '''
