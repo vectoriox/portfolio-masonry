@@ -46,7 +46,7 @@ pipeline{
                   cd ~/${REPO_NAME}
                   echo '3'
                   mkdir -p ~/iox-helm-repo/${REPO_NAME}
-                  helm package ~/iox-helm-repo/${REPO_NAME}
+                  helm package ~/iox-helm-repo/${REPO_NAME}/chart
                   echo '4'
                   cd ~/iox-helm-repo
                   echo '5'
