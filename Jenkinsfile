@@ -11,19 +11,30 @@ pipeline{
         gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
     }
     stages{
-        stage('checkout'){
+      stage('checkout'){
             steps{
                 checkout([$class: 'GitSCM', branches: [[name: env.GIT_BRANCH]], 
                 doGenerateSubmoduleConfigurations: false, extensions: [],
                 submoduleCfg: [],
                 userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL]]])
             }
-        }
-      stage('Print Env'){
+      }
+      stage('Docker Build'){
+            steps{
+              script{
+                 dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+              }
+            }
+      }
+      stage('Dockerhub Push Image'){
         steps{
-          sh 'printenv'
+          script{
+            docker.withRegistry('', 'dockerhub-id'){
+              dockerImage.push()
+            }            
+          }
         }
-      }  
+      }
       stage('Helm Pack and Push'){
         agent {
           docker { 
