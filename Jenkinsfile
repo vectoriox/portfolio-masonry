@@ -6,7 +6,7 @@ pipeline{
         dockerImage = ''
         REPO_NAME= 'portfolio-masonry'
         dockerHubCred = 'dockerhub-id'
-        GITHUB_TOKEN = credentials('github-id')
+        GITHUB_CRED = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
         gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
     }
@@ -28,7 +28,7 @@ pipeline{
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.0' 
-              args '-e GITHUB_TOKEN=${GITHUB_TOKEN} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME}'
+              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME}'
             }
         }
         steps {
@@ -38,10 +38,10 @@ pipeline{
                   if [ -d "$REPO_NAME" ]; then rm -Rf $REPO_NAME; fi
                   if [ -d iox-helm-repo ]; then rm -Rf $REPO_NAME; fi
 
-                  git clone "https://${GITHUB_TOKEN}:x-oauth-basic@${GITHUB_URL}"
+                  git clone "https://${GITHUB_CRED_PSW}:x-oauth-basic@${GITHUB_URL}"
                   sleep 5
                   ls
-                  git clone https://x-access-token:${GITHUB_TOKEN}@github.com/vectoriox/iox-helm-repo.git
+                  git clone https://x-access-token:${GITHUB_CRED_PSW}@github.com/vectoriox/iox-helm-repo.git
                   echo '2'
                   cd ~/${REPO_NAME}
                   echo '3'
