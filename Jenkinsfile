@@ -43,7 +43,7 @@ pipeline{
                   helm package ./chart  -d ~/iox-helm-repo/${REPO_NAME}
                   cd ~/iox-helm-repo
                   git add .
-                  git commit -m '${REPO_NAME} new helm pack'
+                  git commit -m "${REPO_NAME} new helm pack"
                   git push
                 '''
 
