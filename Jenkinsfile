@@ -55,12 +55,13 @@ pipeline{
                   git clone https://x-access-token:${GITHUB_CRED_PSW}@github.com/vectoriox/iox-helm-repo.git
                   cd ~/${REPO_NAME}
 
+                  currentVersion=$(grep -A3 'version:' ./chart/Chart.yaml | tail -n1 | cut -c 10-)  
                   sed -i -e 's/dockerImageTag/${NEW_IMAGE_TAG}/g' ~/${REPO_NAME}/chart/values.yaml
-                  sed -i -e 's/chartVersion/${CHART_VERSION}/g' ~/${REPO_NAME}/chart/Chart.yaml
+
                   
                   mkdir -p ~/iox-helm-repo/${REPO_NAME}
-                  helm package ./chart  -d ~/iox-helm-repo/${REPO_NAME}
-                  
+                  helm package ./chart --version "${currentVersion}-${NEW_IMAGE_TAG}" -d ~/iox-helm-repo/${REPO_NAME}
+
                   cd ~/iox-helm-repo
                   git add .
                   git commit -m "${REPO_NAME} new helm pack"
