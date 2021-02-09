@@ -4,6 +4,8 @@ pipeline{
     
     environment{
         dockerImage = ''
+        dockerImageTag = '' 
+        chartVersion = ''
         REPO_NAME= 'portfolio-masonry'
         dockerHubCred = 'dockerhub-id'
         GITHUB_CRED = credentials('github-id')
@@ -22,6 +24,8 @@ pipeline{
       stage('Docker Build'){
             steps{
               script{
+                 chartVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+                 dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
                  dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
               }
             }
@@ -39,7 +43,7 @@ pipeline{
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.1' 
-              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME}'
+              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e CHART_VERSION=${chartVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
             }
         }
         steps {
@@ -50,8 +54,13 @@ pipeline{
                   git clone "https://${GITHUB_CRED_PSW}:x-oauth-basic@${GITHUB_URL}"
                   git clone https://x-access-token:${GITHUB_CRED_PSW}@github.com/vectoriox/iox-helm-repo.git
                   cd ~/${REPO_NAME}
+
+                  sed -i -e 's/dockerImageTag/${NEW_IMAGE_TAG}/g' ~/${REPO_NAME}/chart/values.yaml
+                  sed -i -e 's/chartVersion/${CHART_VERSION}/g' ~/${REPO_NAME}/chart/Chart.yaml
+                  
                   mkdir -p ~/iox-helm-repo/${REPO_NAME}
                   helm package ./chart  -d ~/iox-helm-repo/${REPO_NAME}
+                  
                   cd ~/iox-helm-repo
                   git add .
                   git commit -m "${REPO_NAME} new helm pack"
