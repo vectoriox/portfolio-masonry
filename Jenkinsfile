@@ -3,14 +3,14 @@ pipeline{
     agent any
     
     environment{
-        dockerImage = ''
-        dockerImageTag = '' 
-        chartVersion = ''
         REPO_NAME= 'portfolio-masonry'
         dockerHubCred = 'dockerhub-id'
         GITHUB_CRED = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
         gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
+        chartVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+        dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+
     }
     stages{
       stage('checkout'){
@@ -24,8 +24,6 @@ pipeline{
       stage('Docker Build'){
             steps{
               script{
-                 chartVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
-                 dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
                  //dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
               }
             }
