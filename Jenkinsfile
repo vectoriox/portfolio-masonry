@@ -41,7 +41,7 @@ pipeline{
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.1' 
-              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e BUILD_VERSION=${buildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
+              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e JENKINS_BUILD_VERSION=${buildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
             }
         }
         steps {
@@ -54,11 +54,11 @@ pipeline{
                   cd ~/${REPO_NAME}
 
                   currentVersion=$(grep -A3 'version:' ./chart/Chart.yaml | tail -n1 | cut -c 10-)  
-                  sed -i -e "s/dockerImageTag/${BUILD_VERSION}/g" ~/${REPO_NAME}/chart/values.yaml
+                  sed -i -e "s/dockerImageTag/${JENKINS_BUILD_VERSION}/g" ~/${REPO_NAME}/chart/values.yaml
 
                   
                   mkdir -p ~/iox-helm-repo/${REPO_NAME}
-                  helm package ./chart --version "${currentVersion}-${BUILD_VERSION}" -d ~/iox-helm-repo/${REPO_NAME}
+                  helm package ./chart --version "${currentVersion}-${JENKINS_BUILD_VERSION}" -d ~/iox-helm-repo/${REPO_NAME}
 
                   cd ~/iox-helm-repo
                   git add .
