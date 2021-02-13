@@ -30,15 +30,15 @@ pipeline{
               }
             }
       }
-      stage('Dockerhub Push Image'){
-        steps{
-          script{
-            docker.withRegistry('', 'dockerhub-id'){
-              dockerImage.push()
-            }            
-          }
-        }
-      }
+      // stage('Dockerhub Push Image'){
+      //   steps{
+      //     script{
+      //       docker.withRegistry('', 'dockerhub-id'){
+      //         dockerImage.push()
+      //       }            
+      //     }
+      //   }
+      // }
       stage('Helm Pack and Push'){
         agent {
           docker { 
