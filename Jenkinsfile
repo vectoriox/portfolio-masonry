@@ -8,7 +8,7 @@ pipeline{
         GITHUB_CRED = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
         gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
-        chartVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+        buildVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
         dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
 
     }
@@ -21,32 +21,31 @@ pipeline{
                 userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL]]])
             }
       }
-      // stage('Docker Build'){
-      //       steps{
-      //         script{
-      //            dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
-      //         }
-      //       }
-      // }
-      // stage('Dockerhub Push Image'){
-      //   steps{
-      //     script{
-      //       docker.withRegistry('', 'dockerhub-id'){
-      //         dockerImage.push()
-      //       }            
-      //     }
-      //   }
-      // }
+      stage('Docker Build'){
+            steps{
+              script{
+                 dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+              }
+            }
+      }
+      stage('Dockerhub Push Image'){
+        steps{
+          script{
+            docker.withRegistry('', 'dockerhub-id'){
+              dockerImage.push()
+            }            
+          }
+        }
+      }
       stage('Helm Pack and Push'){
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.1' 
-              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e CHART_VERSION=${chartVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
+              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e CHART_VERSION=${buildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
             }
         }
         steps {
                 sh '''
-                  'printenv'
                   echo ${NEW_IMAGE_TAG}
                   echo ${CHART_VERSION}
                   echo ${REPO_NAME}
