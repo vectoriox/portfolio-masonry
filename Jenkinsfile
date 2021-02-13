@@ -48,6 +48,7 @@ pipeline{
         }
         steps {
                 sh '''
+                  echo $NEW_IMAGE_TAG
                   cd ~
                   if [ -d "$REPO_NAME" ]; then rm -Rf $REPO_NAME; fi
                   if [ -d iox-helm-repo ]; then rm -Rf $REPO_NAME; fi
