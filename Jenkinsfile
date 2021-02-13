@@ -8,7 +8,7 @@ pipeline{
         GITHUB_CRED = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
         gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
-        buildVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+        jenkinsBuildVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
         dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
 
     }
@@ -41,7 +41,7 @@ pipeline{
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.1' 
-              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e JENKINS_BUILD_VERSION=${buildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
+              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e JENKINS_BUILD_VERSION=${jenkinsBuildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
             }
         }
         steps {
