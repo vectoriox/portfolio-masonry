@@ -62,7 +62,7 @@ pipeline{
 
                   
                   mkdir -p ~/iox-helm-repo/${REPO_NAME}
-                  helm package ./chart --version "${currentVersion}-${NEW_IMAGE_TAG}" -d ~/iox-helm-repo/${REPO_NAME}
+                  helm package ./chart --version "${currentVersion}-${CHART_VERSION}" -d ~/iox-helm-repo/${REPO_NAME}
 
                   cd ~/iox-helm-repo
                   git add .
