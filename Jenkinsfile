@@ -21,34 +21,31 @@ pipeline{
                 userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL]]])
             }
       }
-      // stage('Docker Build'){
-      //       steps{
-      //         script{
-      //            dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
-      //         }
-      //       }
-      // }
-      // stage('Dockerhub Push Image'){
-      //   steps{
-      //     script{
-      //       docker.withRegistry('', 'dockerhub-id'){
-      //         dockerImage.push()
-      //       }            
-      //     }
-      //   }
-      // }
+      stage('Docker Build'){
+            steps{
+              script{
+                 dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+              }
+            }
+      }
+      stage('Dockerhub Push Image'){
+        steps{
+          script{
+            docker.withRegistry('', 'dockerhub-id'){
+              dockerImage.push()
+            }            
+          }
+        }
+      }
       stage('Helm Pack and Push'){
         agent {
           docker { 
               image 'ioxweb/iox-executor:1.0.1' 
-              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e CHART_VERSION=${buildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
+              args '-e GITHUB_CRED_PSW=${GITHUB_CRED_PSW} -e GITHUB_URL=${gitUrl} -e REPO_NAME=${REPO_NAME} -e BUILD_VERSION=${buildVersion} -e NEW_IMAGE_TAG=${dockerImageTag}'
             }
         }
         steps {
                 sh '''
-                  echo ${NEW_IMAGE_TAG}
-                  echo ${CHART_VERSION}
-                  echo ${REPO_NAME}
                   cd ~
                   if [ -d "$REPO_NAME" ]; then rm -Rf $REPO_NAME; fi
                   if [ -d iox-helm-repo ]; then rm -Rf $REPO_NAME; fi
@@ -57,11 +54,11 @@ pipeline{
                   cd ~/${REPO_NAME}
 
                   currentVersion=$(grep -A3 'version:' ./chart/Chart.yaml | tail -n1 | cut -c 10-)  
-                  sed -i -e "s/dockerImageTag/${NEW_IMAGE_TAG}/g" ~/${REPO_NAME}/chart/values.yaml
+                  sed -i -e "s/dockerImageTag/${BUILD_VERSION}/g" ~/${REPO_NAME}/chart/values.yaml
 
                   
                   mkdir -p ~/iox-helm-repo/${REPO_NAME}
-                  helm package ./chart --version "${currentVersion}-${CHART_VERSION}" -d ~/iox-helm-repo/${REPO_NAME}
+                  helm package ./chart --version "${currentVersion}-${BUILD_VERSION}" -d ~/iox-helm-repo/${REPO_NAME}
 
                   cd ~/iox-helm-repo
                   git add .

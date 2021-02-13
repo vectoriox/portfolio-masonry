@@ -1,5 +1,7 @@
 nameSpace: iox-studio
 appName: liora-portfolio
+oxweb/portfolio-masonry:master-1613213353-63/g
+oxweb/portfolio-masonry:master-1613213353-63/g
 dockerImage: dockerImageTag
 containerPort: 1337
 externalPort: 80
