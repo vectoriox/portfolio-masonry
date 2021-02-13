@@ -26,7 +26,7 @@ pipeline{
               script{
                  chartVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
                  dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
-                 dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+                 //dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
               }
             }
       }
@@ -49,6 +49,9 @@ pipeline{
         steps {
                 sh '''
                   echo $NEW_IMAGE_TAG
+                  echo $CHART_VERSION
+                  echo $CHART_VERSION
+                  echi $REPO_NAME
                   cd ~
                   if [ -d "$REPO_NAME" ]; then rm -Rf $REPO_NAME; fi
                   if [ -d iox-helm-repo ]; then rm -Rf $REPO_NAME; fi
