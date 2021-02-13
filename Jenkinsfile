@@ -48,6 +48,7 @@ pipeline{
         }
         steps {
                 sh '''
+                  sh 'printenv'
                   echo ${NEW_IMAGE_TAG}
                   echo ${CHART_VERSION}
                   echo ${REPO_NAME}
