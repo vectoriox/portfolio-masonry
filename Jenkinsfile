@@ -8,7 +8,7 @@ pipeline{
         GITHUB_CRED = credentials('github-id')
         BUILDVERSION = sh(script: "echo `date +%s`", returnStdout: true).trim()
         gitUrl = env.GIT_URL.replaceFirst("^(http[s]?://www\\.|http[s]?://|www\\.)","")
-        jenkinsBuildVersion = "${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+        jenkinsBuildVersion = "${env.GIT_BRANCH}.${env.BUILDVERSION}.${env.BUILD_ID}"
         dockerImageTag = "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
 
     }
@@ -21,22 +21,22 @@ pipeline{
                 userRemoteConfigs: [[credentialsId: 'github-id', url: env.GIT_URL]]])
             }
       }
-      // stage('Docker Build'){
-      //       steps{
-      //         script{
-      //            dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
-      //         }
-      //       }
-      // }
-      // stage('Dockerhub Push Image'){
-      //   steps{
-      //     script{
-      //       docker.withRegistry('', 'dockerhub-id'){
-      //         dockerImage.push()
-      //       }            
-      //     }
-      //   }
-      // }
+      stage('Docker Build'){
+            steps{
+              script{
+                 dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+              }
+            }
+      }
+      stage('Dockerhub Push Image'){
+        steps{
+          script{
+            docker.withRegistry('', 'dockerhub-id'){
+              dockerImage.push()
+            }            
+          }
+        }
+      }
       stage('Helm Pack and Push'){
         agent {
           docker { 
