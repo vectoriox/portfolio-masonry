@@ -1,5 +1,4 @@
 nameSpace: iox-studio
-appName: "ioxweb/portfolio-masonry:dockerImageTag"
-dockerImage: dockerImageTag
+dockerImage: "ioxweb/portfolio-masonry:dockerImageTag"
 containerPort: 1337
 externalPort: 80
