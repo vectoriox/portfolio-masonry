@@ -61,6 +61,7 @@ pipeline{
                   helm package ./chart --version "${currentVersion}-${JENKINS_BUILD_VERSION}" -d ~/iox-helm-repo/${REPO_NAME}
 
                   cd ~/iox-helm-repo
+                  helm index .
                   git add .
                   git commit -m "${REPO_NAME} new helm pack"
                   git push
