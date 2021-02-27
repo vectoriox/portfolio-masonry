@@ -24,7 +24,7 @@ pipeline{
       stage('Docker Build'){
             steps{
               script{
-                 dockerImage =  docker.build "ioxweb/${REPO_NAME}:${env.GIT_BRANCH}-${env.BUILDVERSION}-${env.BUILD_ID}"
+                 dockerImage =  docker.build "${dockerImageTag}"
               }
             }
       }
